@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 
+run.sh
+
 # Distribution / packaging
 .Python
 build/
