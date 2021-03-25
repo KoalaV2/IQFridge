@@ -28,9 +28,7 @@ def writeproduct():
 
 def getlist():
     user = os.getenv('GROC_USER') 
-    #print(user)
     password = os.getenv('GROC_PASSWORD')
-    #print(password)
 
     og = OurGroceries(user,password)
 
@@ -44,9 +42,8 @@ def getlist():
         print(temp)
 
 def main():
-#    writeproduct()
-    getlist()
-
+    writeproduct()
+    #getlist()
 
 if __name__ == "__main__":
     main()
