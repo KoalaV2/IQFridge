@@ -7,9 +7,12 @@ import sqlite3
 from ourgroceries import OurGroceries
 import asyncio
 import os
-import flask
+from flask import Flask
 
-conn = sqlite3.connect('database.db')
+app = Flask(__name__)
+app.config['DEBUG'] = True
+
+conn = sqlite3.connect('database.db', check_same_thread=False)
 c = conn.cursor()
 
 
@@ -31,6 +34,8 @@ def readdatabase():
     cursor = c.execute("SELECT namn,typ,datum FROM varor")
     for row in cursor:
         print(f"Du har en {row[0]} vilket är en {row[1]} som går ut {row[2]}")
+        return(row)
+    conn.close()
     
 def getlist():
     user = os.getenv('GROC_USER') 
@@ -47,8 +52,16 @@ def getlist():
         temp = f"{x['value']}"
         print(temp)
 
+@app.route("/")
+def hello():
+    row = readdatabase()
+    print(row)
+    for x in row:
+        return x
+ 
 def main():
-    readdatabase()
+    app.run()
+    #readdatabase()
     #writeproduct()
     #getlist()
 
