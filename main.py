@@ -7,6 +7,7 @@ import sqlite3
 from ourgroceries import OurGroceries
 import asyncio
 import os
+import flask
 
 conn = sqlite3.connect('database.db')
 c = conn.cursor()
@@ -26,6 +27,11 @@ def writeproduct():
     conn.commit()
     conn.close()
 
+def readdatabase():
+    cursor = c.execute("SELECT namn,typ,datum FROM varor")
+    for row in cursor:
+        print(f"Du har en {row[0]} vilket är en {row[1]} som går ut {row[2]}")
+    
 def getlist():
     user = os.getenv('GROC_USER') 
     password = os.getenv('GROC_PASSWORD')
@@ -42,7 +48,8 @@ def getlist():
         print(temp)
 
 def main():
-    writeproduct()
+    readdatabase()
+    #writeproduct()
     #getlist()
 
 if __name__ == "__main__":
