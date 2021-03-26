@@ -34,7 +34,6 @@ def writeproduct():
 def readdatabase():
     cursor = c.execute("SELECT namn,typ,datum FROM varor")
     results = cursor.fetchall()
-    conn.close()
     return results
     
 def getlist():
@@ -56,12 +55,8 @@ def getlist():
 def hello():
     row = readdatabase()
     print(row)
-    #return(str(row))
-    #return "\n".join([f"Du har en {productInfo[0]} vilket är en {productInfo[1]} som går ut {productInfo[2]}" for productInfo in row])
     return Markup("<pre>" + ("<br>".join([f"Du har en {productInfo[0]} vilket är en {productInfo[1]} som går ut {productInfo[2]}" for productInfo in row])) + "</pre>")
-    #for x in row:
-    #    return x
- 
+     
 def main():
     app.run()
     #readdatabase()
