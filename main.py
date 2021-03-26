@@ -55,9 +55,7 @@ def getlist():
 @app.route("/")
 def hello():
     row = readdatabase()
-    print(row)
-    formatedData = "\n".join([f"Du har en {productInfo[0]} vilket är en {productInfo[1]} som går ut {productInfo[2]}" for productInfo in row])
-    return render_template("readdatabase.html",formatedData=formatedData)
+    return render_template("readdatabase.html",data=row)
      
 def main():
     app.run()
