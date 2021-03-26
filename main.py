@@ -9,6 +9,7 @@ import asyncio
 import os
 from flask import Flask
 from flask import Markup
+from flask import render_template
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -55,7 +56,8 @@ def getlist():
 def hello():
     row = readdatabase()
     print(row)
-    return Markup("<pre>" + ("<br>".join([f"Du har en {productInfo[0]} vilket är en {productInfo[1]} som går ut {productInfo[2]}" for productInfo in row])) + "</pre>")
+    formatedData = "\n".join([f"Du har en {productInfo[0]} vilket är en {productInfo[1]} som går ut {productInfo[2]}" for productInfo in row])
+    return render_template("readdatabase.html",formatedData=formatedData)
      
 def main():
     app.run()
