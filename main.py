@@ -8,6 +8,7 @@ from ourgroceries import OurGroceries
 import asyncio
 import os
 from flask import Flask
+from flask import Markup
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -32,10 +33,9 @@ def writeproduct():
 
 def readdatabase():
     cursor = c.execute("SELECT namn,typ,datum FROM varor")
-    for row in cursor:
-        print(f"Du har en {row[0]} vilket är en {row[1]} som går ut {row[2]}")
-        return(row)
+    results = cursor.fetchall()
     conn.close()
+    return results
     
 def getlist():
     user = os.getenv('GROC_USER') 
@@ -56,8 +56,11 @@ def getlist():
 def hello():
     row = readdatabase()
     print(row)
-    for x in row:
-        return x
+    #return(str(row))
+    #return "\n".join([f"Du har en {productInfo[0]} vilket är en {productInfo[1]} som går ut {productInfo[2]}" for productInfo in row])
+    return Markup("<pre>" + ("<br>".join([f"Du har en {productInfo[0]} vilket är en {productInfo[1]} som går ut {productInfo[2]}" for productInfo in row])) + "</pre>")
+    #for x in row:
+    #    return x
  
 def main():
     app.run()
