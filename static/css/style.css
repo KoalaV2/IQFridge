@@ -1,0 +1,39 @@
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+body {
+    max-width: 100vw;
+    height: 200px;
+    width: 400px;
+    position: relative;
+    text-align: center;
+    margin: auto;
+    animation: fadein 1.5s;
+    -webkit-animation: fadein 1.5s;
+}
+.headers {
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+p{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 18px;
+    color: white;
+}

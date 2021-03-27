@@ -54,11 +54,14 @@ def getlist():
 
 @app.route("/")
 def hello():
+    return render_template("index.html")
+@app.route("/readdatabase")
+def vadikylen():
     row = readdatabase()
-    return render_template("readdatabase.html",data=row)
+    return render_template('readdatabase.html',data=row)
      
 def main():
-    app.run()
+    app.run(host= "192.168.68.111")
     #readdatabase()
     #writeproduct()
     #getlist()
