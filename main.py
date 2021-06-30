@@ -11,9 +11,14 @@ import asyncio
 from flask import Flask
 from flask import Markup
 from flask import render_template
+from flask import request
+from flask import flash
+from flask import redirect
+from flask import url_for
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
+app.secret_key = 'super secret key'
 
 load_dotenv()
 DB_USER = os.getenv("DB_USER")
@@ -76,24 +81,23 @@ import argparse
 
 # Make one method to decode the barcode
 def BarcodeReader(args=None):
-    if len(sys.argv) == 1:
-        cam = cv2.VideoCapture(4)
-        while(True):
-            ret,frame = cam.read()
-            cv2.imshow('img1',frame) #display the captured image
-            if cv2.waitKey(1) & 0xFF == ord('y'): #save on pressing 'y'
-                cv2.imwrite('c1.png',frame)
-                cv2.destroyAllWindows()
-                break
-        img = cv2.imread('c1.png')
-    else:
-        parser = argparse.ArgumentParser(
-            description='Reads barcodes in images, using the zbar library'
-        )
-        parser.add_argument('image', nargs='+')
-        args = parser.parse_args(args)
-        img = cv2.imread(args.image[0])
-        ##img = args.image
+    # if len(sys.argv) == 1:
+    #     cam = cv2.VideoCapture(4)
+    #     while(True):
+    #         ret,frame = cam.read()
+    #         cv2.imshow('img1',frame) #display the captured image
+    #         if cv2.waitKey(1) & 0xFF == ord('y'): #save on pressing 'y'
+    #             cv2.imwrite('image.png',frame)
+    #             cv2.destroyAllWindows()
+    #             break
+    img = cv2.imread('image.jpg')
+    # parser = argparse.ArgumentParser(
+    #     description='Reads barcodes in images, using the zbar library'
+    # )
+    # parser.add_argument('image', nargs='+')
+    # args = parser.parse_args(args)
+    # img = cv2.imread(args.image[0])
+    #img = args.image
 
     prodid = None
 
@@ -106,23 +110,14 @@ def BarcodeReader(args=None):
     # If not detected then print the message
     if not detectedBarcodes:
         print("Barcode Not Detected or your barcode is blank/corrupted!")
-        return None
+        return("Not detected")
     else:
           # Traveres through all the detected barcodes in image
         for barcode in detectedBarcodes:
-            # Locate the barcode position in image
-            # (x, y, w, h) = barcode.rect
-            # Put the rectangle in image using
-            # cv2 to heighlight the barcode
-            # cv2.rectangle(img, (x-10, y-10),
-            #               (x + w+10, y + h+10),
-            #               (255, 0, 0), 2)
             if barcode.data!="":
             # Print the barcode data
-                #print(barcode())
                 prodid = barcode.data.decode()
                 print(prodid)
-                #print(barcode.type)
 
     url = f"https://world.openfoodfacts.org/api/v0/product/{prodid}.json"
     print(url)
@@ -133,28 +128,39 @@ def BarcodeReader(args=None):
 
 
 @app.route("/")
-def hello():
+def index():
     return render_template("index.html")
 @app.route("/readdatabase")
 def vadikylen():
     row = readdatabase()
     return render_template('readdatabase.html',data=row)
 @app.route("/readbar")
-def readbarcode():
+def readbar():
     result = BarcodeReader()
-    if result == None:
-        return("Barcode not found in image.")
-    prodname = result['product_name']
-    return render_template('readbarcode.html',prodname=prodname)
+    if result == "Not detected":
+        return redirect(url_for('index'))
+    else:
+        prodname = result['product_name']
+        prodcategory = result['categories_tags'][0]
+        return render_template('readbarcode.html',prodname=prodname,prodcategory=prodcategory)
+@app.route('/takeimage')
+def takeimage():
+    return render_template('upload.html')
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        fs = request.files.get('snap')
+        if fs:
+            print('FileStorage:', fs)
+            print('filename:', fs.filename)
+            fs.save('image.jpg')
+            print("Saved file")
+            return ""
+        else:
+            return 'You forgot Snap!'
 
 def main():
-    #BarcodeReader()
-    #getlist()
     app.run(host= "0.0.0.0")
-    # writeproduct()
-    #readdatabase()
-
-    #getlist()
 
 if __name__ == "__main__":
     main()
