@@ -15,6 +15,10 @@ from flask import request
 from flask import flash
 from flask import redirect
 from flask import url_for
+from flask import Response
+import cv2
+from pyzbar.pyzbar import decode
+import requests
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -71,39 +75,53 @@ def getlist():
         temp = f"{x['value']}"
         print(temp)
 
-import cv2
-from pyzbar.pyzbar import decode
-import requests
-import json
-import sys
-import argparse
+class VideoCamera(object):
+    def __init__(self):
+        self.video = cv2.VideoCapture(0)
+
+    def __del__(self):
+        self.video.release()
+
+    def get_frame(self):
+        success, image = self.video.read()
+        ret, jpeg = cv2.imencode('.jpg', image)
+        return jpeg.tobytes(),image
 
 
-# Make one method to decode the barcode
-def BarcodeReader(args=None):
-    # if len(sys.argv) == 1:
-    #     cam = cv2.VideoCapture(4)
-    #     while(True):
-    #         ret,frame = cam.read()
-    #         cv2.imshow('img1',frame) #display the captured image
-    #         if cv2.waitKey(1) & 0xFF == ord('y'): #save on pressing 'y'
-    #             cv2.imwrite('image.png',frame)
-    #             cv2.destroyAllWindows()
-    #             break
 
-    img = cv2.imread('image.jpg')
+
+def gen(camera):
+    resultthing = False
+    while resultthing == False:
+        frame,image = camera.get_frame()
+        result = decode(image)
+        if result:
+            resultthing = True
+        else:
+            yield (b'--frame\r\n'
+                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+    return redirect(url_for('readbar'))
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen(VideoCamera()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+@app.route("/")
+def index():
+    return render_template("index.html")
+@app.route("/readdatabase")
+def vadikylen():
+    row = readdatabase()
+    return render_template('readdatabase.html',data=row)
+@app.route("/readbar")
+def readbar(image):
+
+    detectedBarcodes = decode(image)
+
     prodid = None
-
-    # Decode the barcode image
-    detectedBarcodes = decode(img)
-    # while detectedBarcodes == []:
-    #     detectedBarcodes = decode(img)
-    #     print(detectedBarcodes)
-
     # If not detected then print the message
     if not detectedBarcodes:
-        print("Barcode Not Detected or your barcode is blank/corrupted!")
-        return("Not detected")
+        return(False)
     else:
           # Traveres through all the detected barcodes in image
         for barcode in detectedBarcodes:
@@ -119,45 +137,20 @@ def BarcodeReader(args=None):
     json_data_product = json_data['product']
     return json_data_product
 
+    try:
+        productimage = result['image_front_url']
+    except:
+        productimage = "Image not found."
+    prodname = result['product_name']
+    try:
+        prodcategory = result['categories_tags'][0]
+    except:
+        prodcategory = "Category not found."
+    return render_template('readbarcode.html',prodname=prodname,prodcategory=prodcategory,productimage=productimage)
 
-@app.route("/")
-def index():
-    return render_template("index.html")
-@app.route("/readdatabase")
-def vadikylen():
-    row = readdatabase()
-    return render_template('readdatabase.html',data=row)
-@app.route("/readbar")
-def readbar():
-    result = BarcodeReader()
-    if result == "Not detected":
-        return redirect(url_for('takeimage'))
-    else:
-        try:
-            productimage = result['image_front_url']
-        except:
-            productimage = "Image not found."
-        prodname = result['product_name']
-        try:
-            prodcategory = result['categories_tags'][0]
-        except:
-            prodcategory = "Category not found."
-        return render_template('readbarcode.html',prodname=prodname,prodcategory=prodcategory,productimage=productimage)
-@app.route('/takeimage')
-def takeimage():
-    return render_template('upload.html')
-@app.route('/upload', methods=['GET', 'POST'])
-def upload():
-    if request.method == 'POST':
-        fs = request.files.get('snap')
-        if fs:
-            print('FileStorage:', fs)
-            print('filename:', fs.filename)
-            fs.save('image.jpg')
-            print("Saved file")
-            return ""
-        else:
-            return 'You forgot Snap!'
+@app.route("/seecam")
+def seecam():
+    return render_template("video_feed.html")
 
 def main():
     app.run(host= "0.0.0.0")
