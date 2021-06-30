@@ -90,15 +90,8 @@ def BarcodeReader(args=None):
     #             cv2.imwrite('image.png',frame)
     #             cv2.destroyAllWindows()
     #             break
-    img = cv2.imread('image.jpg')
-    # parser = argparse.ArgumentParser(
-    #     description='Reads barcodes in images, using the zbar library'
-    # )
-    # parser.add_argument('image', nargs='+')
-    # args = parser.parse_args(args)
-    # img = cv2.imread(args.image[0])
-    #img = args.image
 
+    img = cv2.imread('image.jpg')
     prodid = None
 
     # Decode the barcode image
@@ -138,14 +131,17 @@ def vadikylen():
 def readbar():
     result = BarcodeReader()
     if result == "Not detected":
-        return redirect(url_for('index'))
+        return redirect(url_for('takeimage'))
     else:
         try:
             productimage = result['image_front_url']
         except:
             productimage = "Image not found."
         prodname = result['product_name']
-        prodcategory = result['categories_tags'][0]
+        try:
+            prodcategory = result['categories_tags'][0]
+        except:
+            prodcategory = "Category not found."
         return render_template('readbarcode.html',prodname=prodname,prodcategory=prodcategory,productimage=productimage)
 @app.route('/takeimage')
 def takeimage():
