@@ -140,9 +140,13 @@ def readbar():
     if result == "Not detected":
         return redirect(url_for('index'))
     else:
+        try:
+            productimage = result['image_front_url']
+        except:
+            productimage = "Image not found."
         prodname = result['product_name']
         prodcategory = result['categories_tags'][0]
-        return render_template('readbarcode.html',prodname=prodname,prodcategory=prodcategory)
+        return render_template('readbarcode.html',prodname=prodname,prodcategory=prodcategory,productimage=productimage)
 @app.route('/takeimage')
 def takeimage():
     return render_template('upload.html')
