@@ -15,6 +15,12 @@ from flask import request
 from flask import flash
 from flask import redirect
 from flask import url_for
+import cv2
+from pyzbar.pyzbar import decode
+import requests
+import sys
+import argparse
+
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -71,26 +77,8 @@ def getlist():
         temp = f"{x['value']}"
         print(temp)
 
-import cv2
-from pyzbar.pyzbar import decode
-import requests
-import json
-import sys
-import argparse
-
-
 # Make one method to decode the barcode
 def BarcodeReader(args=None):
-    # if len(sys.argv) == 1:
-    #     cam = cv2.VideoCapture(4)
-    #     while(True):
-    #         ret,frame = cam.read()
-    #         cv2.imshow('img1',frame) #display the captured image
-    #         if cv2.waitKey(1) & 0xFF == ord('y'): #save on pressing 'y'
-    #             cv2.imwrite('image.png',frame)
-    #             cv2.destroyAllWindows()
-    #             break
-
     img = cv2.imread('image.jpg')
     prodid = None
 
