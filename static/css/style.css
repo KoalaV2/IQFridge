@@ -26,6 +26,8 @@ body {
     text-align: center;
     margin: auto;
     animation: fadein 1.5s;
+    font-family: 'IBM Plex Mono', monospace;
+    color: white;
     -webkit-animation: fadein 1.5s;
 }
 .headers {
@@ -38,3 +40,4 @@ p{
     font-size: 18px;
     color: white;
 }
+
