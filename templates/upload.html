@@ -43,6 +43,7 @@
         xhr.open("POST", "{{ url_for('upload') }}", true);
         xhr.onload = function() {};
         xhr.send(formdata);
+        window.location.replace("{{ url_for('readbar') }}")
     }
     </script>
     </body>
