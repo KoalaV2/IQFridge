@@ -83,7 +83,10 @@ def BarcodeReader(args=None):
     prodid = None
 
     # Decode the barcode image
-    detectedBarcodes = decode(img)
+    try:
+        detectedBarcodes = decode(img)
+    except:
+        return "Something has gone wrong..."
     # while detectedBarcodes == []:
     #     detectedBarcodes = decode(img)
     #     print(detectedBarcodes)
@@ -129,6 +132,7 @@ def readbar():
         prodname = result['product_name']
         try:
             prodcategory = result['categories_tags'][0]
+            prodcategory = prodcategory.replace("en:","")
         except:
             prodcategory = "Category not found."
         return render_template('readbarcode.html',prodname=prodname,prodcategory=prodcategory,productimage=productimage)
