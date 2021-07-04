@@ -143,7 +143,7 @@ def upload():
             print('filename:', fs.filename)
             fs.save('image.jpg')
             print("Saved file")
-            return "Saved file!"
+            return ""
         else:
             return "You forgot Snap!"
 

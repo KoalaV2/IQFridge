@@ -31,9 +31,10 @@
     document.getElementById("send").addEventListener("click", function() {
         context.drawImage(video, 0, 0, 640, 480); // copy frame from <video>
         canvas.toBlob(upload, "image/jpeg");  // convert to file and execute function `upload`
+        window.location.replace("{{ url_for('readbar') }}");
     });
 
-    function upload(file) {
+    function upload(file,_callback) {
         // create form and append file
         var formdata =  new FormData();
         formdata.append("snap", file);
@@ -43,6 +44,7 @@
         xhr.open("POST", "{{ url_for('upload') }}", true);
         xhr.onload = function() {};
         xhr.send(formdata);
+        _callback();
     }
     </script>
     </body>
