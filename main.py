@@ -105,6 +105,7 @@ def BarcodeReader(args=None):
     response = requests.get(url)
     json_data = json.loads(response.text)
     json_data_product = json_data['product']
+    os.remove("image.jpg")
     return json_data_product
 
 
