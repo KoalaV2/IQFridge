@@ -91,21 +91,26 @@ class VideoCamera(object):
 
 
 def gen(camera):
+    global resultthing
     resultthing = False
     while resultthing == False:
         frame,image = camera.get_frame()
         result = decode(image)
         if result:
             resultthing = True
+            return resultthing
         else:
             yield (b'--frame\r\n'
                     b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-    return redirect(url_for('readbar'))
 
 @app.route('/video_feed')
 def video_feed():
-    return Response(gen(VideoCamera()),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(gen(VideoCamera()),mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@app.route("/seecam")
+def seecam():
+    return render_template("video_feed.html")
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -147,11 +152,6 @@ def readbar(image):
     except:
         prodcategory = "Category not found."
     return render_template('readbarcode.html',prodname=prodname,prodcategory=prodcategory,productimage=productimage)
-
-@app.route("/seecam")
-def seecam():
-    return render_template("video_feed.html")
-
 def main():
     app.run(host= "0.0.0.0")
 

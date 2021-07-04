@@ -11,7 +11,16 @@
     </style>
   </head>
   <body>
-    <img id="bg" class="center" src="{{ url_for('video_feed') }}">
+    <img id="bg" class="center" src="{{ url_for('video_feed') }}" onended="javascript: alert('success')">
     <p> {{ url_for('readbar') }} </p>
+    <script>
+    var urls = Array.prototype.map.call(
+    document.querySelectorAll("link, img, script, iframe"), // Elements which request external resources
+    function(e) { // Loop over and return their href/src
+        return e.href || e.src;
+    });
+    console.log(urls)
+
+  </script>
   </body>
 </html>
