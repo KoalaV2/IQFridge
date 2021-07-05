@@ -86,7 +86,7 @@ def BarcodeReader(args=None):
     try:
         detectedBarcodes = decode(img)
     except:
-        return "Something has gone wrong..."
+        return "Not detected"
     # while detectedBarcodes == []:
     #     detectedBarcodes = decode(img)
     #     print(detectedBarcodes)
@@ -108,7 +108,6 @@ def BarcodeReader(args=None):
     response = requests.get(url)
     json_data = json.loads(response.text)
     json_data_product = json_data['product']
-    os.remove("image.jpg")
     return json_data_product
 
 
@@ -129,6 +128,7 @@ def readbar():
             productimage = result['image_front_url']
         except:
             productimage = "Image not found."
+        print(result)
         prodname = result['product_name']
         try:
             prodcategory = result['categories_tags'][0]
