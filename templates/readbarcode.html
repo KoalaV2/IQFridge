@@ -9,6 +9,9 @@
     <body>
         <p> The product is: <br/> {{ prodname }} <br/> And it is {{ prodcategory }}</p>
         <img src="{{ productimage }}"> </img>
+        <a href="{{ url_for('takeimage') }}">
+            <button> Lägg till ännu en vara. </button>
+        </a>
         <a href="{{ url_for('index') }}">
             <button> Gå tillbaka till hemsidan. </button>
         </a>
