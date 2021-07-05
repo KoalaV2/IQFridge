@@ -119,6 +119,9 @@ def index():
 def vadikylen():
     row = readdatabase()
     return render_template('readdatabase.html',data=row)
+@app.route("/scanner")
+def scanner():
+    return render_template("scanner.html")
 @app.route("/readbar")
 def readbar():
     result = BarcodeReader()
