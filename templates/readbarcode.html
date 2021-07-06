@@ -15,5 +15,28 @@
         <a href="{{ url_for('index') }}">
             <button> Gå tillbaka till hemsidan. </button>
         </a>
+        <a onclick="sendtodatabase()">
+            <button> Lägg till i kylen. </button>
+        </a>
+                <script>
+                  // Sending and receiving data in JSON format using POST method
+                    //
+                    function sendtodatabase() {
+                        var xhr = new XMLHttpRequest();
+                        var url = "https://localhost:5000/writeproduct";
+                        xhr.open("POST", url, true);
+                        xhr.setRequestHeader("Content-Type", "application/json");
+                        // xhr.onreadystatechange = function () {
+                            // if (xhr.readyState === 4 && xhr.status === 200) {
+                                // console.log(xhr.responseText)
+                                // var json = JSON.parse(xhr.responseText);
+                                // console.log(json.email + ", " + json.password);
+                            // }
+                        // };
+                        var data = JSON.stringify({"email": "hey@mail.com", "password": "101010"});
+                        xhr.send(data);
+                    }
+
+                </script>
     </body>
 </html>

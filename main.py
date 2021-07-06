@@ -47,16 +47,6 @@ except mariadb.Error as e:
     exit()
 
 
-def writeproduct():
-    c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS fridge (namn VARCHAR(255),typ VARCHAR(255),datum VARCHAR(255))''')
-    namn = input("Vad heter produkten? \n")
-    typ = input("Vad för typ är produkten? \n")
-    datum = str(input("När går denna produkt ut? \n"))
-    c.execute("INSERT INTO fridge VALUES (?,?,?);", (namn, typ, datum))
-    conn.commit()
-    conn.close()
-
 def readdatabase():
     c = conn.cursor()
     cursor = c.execute("SELECT namn,typ,datum FROM fridge")
@@ -128,7 +118,6 @@ def readbar():
             productimage = result['image_front_url']
         except:
             productimage = "Image not found."
-        print(result)
         prodname = result['product_name']
         try:
             prodcategory = result['categories_tags'][0]
@@ -151,6 +140,19 @@ def upload():
             return ""
         else:
             return "You forgot Snap!"
+@app.route('/writeproduct', methods=['GET', 'POST'])
+def writeproduct():
+    return "lol"
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS fridge (namn VARCHAR(255),typ VARCHAR(255),datum VARCHAR(255))''')
+    namn = input("Vad heter produkten? \n")
+    typ = input("Vad för typ är produkten? \n")
+    datum = str(input("När går denna produkt ut? \n"))
+    c.execute("INSERT INTO fridge VALUES (?,?,?);", (namn, typ, datum))
+    conn.commit()
+    conn.close()
+
+
 
 def main():
     app.run(host= "0.0.0.0",ssl_context='adhoc')
