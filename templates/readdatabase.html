@@ -11,9 +11,9 @@
     <body>
         <table id="myTable" align="center">
             <tr>
-              <th onclick="sortTable(0)">namn</th>
-              <th onclick="sortTable(1)">typ</th>
-              <th onclick="sortTable(2)">datum</th>
+              <th onclick="sortTable(0)">Name</th>
+              <th onclick="sortTable(1)">Category</th>
+              <th onclick="sortTable(2)">Expiry Date</th>
             </tr>
             {% for x in data %}
                 <tr>
@@ -23,7 +23,7 @@
                 </tr>
             {%endfor%}
         </table>
-        
+
         <script>
             function sortTable(n) {
               var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;

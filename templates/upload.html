@@ -27,6 +27,7 @@
                             }
                 }).then(function(stream) {
             //video.src = window.URL.createObjectURL(stream);
+            console.log(stream)
             video.srcObject = stream;
             video.play();
         });

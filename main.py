@@ -49,7 +49,8 @@ except mariadb.Error as e:
 
 def readdatabase():
     c = conn.cursor()
-    cursor = c.execute("SELECT namn,typ,datum FROM fridge")
+    c.execute('''CREATE TABLE IF NOT EXISTS fridge (name VARCHAR(255),category VARCHAR(255),expdate VARCHAR(255))''')
+    cursor = c.execute("SELECT name,category,expdate FROM fridge")
     return c
 
 def getlist():
@@ -142,15 +143,17 @@ def upload():
             return "You forgot Snap!"
 @app.route('/writeproduct', methods=['GET', 'POST'])
 def writeproduct():
-    return "lol"
+    content = request.json
+    print(content)
     c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS fridge (namn VARCHAR(255),typ VARCHAR(255),datum VARCHAR(255))''')
-    namn = input("Vad heter produkten? \n")
-    typ = input("Vad för typ är produkten? \n")
-    datum = str(input("När går denna produkt ut? \n"))
-    c.execute("INSERT INTO fridge VALUES (?,?,?);", (namn, typ, datum))
+    c.execute('''CREATE TABLE IF NOT EXISTS fridge (name VARCHAR(255),category VARCHAR(255),expdate VARCHAR(255))''')
+    prodname = content['prodname']
+    prodcategory = content['prodcategory']
+    # prodexpdate = content['prodexpdate']
+    prodexpdate = "2021-02-02"
+    c.execute("INSERT INTO fridge VALUES (?,?,?);", (prodname, prodcategory, prodexpdate))
     conn.commit()
-    conn.close()
+    return(f"Product: {prodname} has been added to the database.")
 
 
 

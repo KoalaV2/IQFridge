@@ -7,16 +7,16 @@
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
         </head>
     <body>
-        <p> The product is: <br/> {{ prodname }} <br/> And it is {{ prodcategory }}</p>
+        <p> The product is: <br/> {{ prodname }}, <br/> and it is {{ prodcategory }}.</p>
         <img src="{{ productimage }}"> </img>
         <a href="{{ url_for('takeimage') }}">
-            <button> Lägg till ännu en vara. </button>
+            <button> Add new product. </button>
         </a>
         <a href="{{ url_for('index') }}">
-            <button> Gå tillbaka till hemsidan. </button>
+            <button> Go to the startpage. </button>
         </a>
         <a onclick="sendtodatabase()">
-            <button> Lägg till i kylen. </button>
+            <button> Add to the fridge. </button>
         </a>
                 <script>
                   // Sending and receiving data in JSON format using POST method
@@ -26,14 +26,15 @@
                         var url = "https://localhost:5000/writeproduct";
                         xhr.open("POST", url, true);
                         xhr.setRequestHeader("Content-Type", "application/json");
-                        // xhr.onreadystatechange = function () {
-                            // if (xhr.readyState === 4 && xhr.status === 200) {
-                                // console.log(xhr.responseText)
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                console.log(xhr.responseText)
+                                alert(xhr.responseText)
                                 // var json = JSON.parse(xhr.responseText);
                                 // console.log(json.email + ", " + json.password);
-                            // }
-                        // };
-                        var data = JSON.stringify({"email": "hey@mail.com", "password": "101010"});
+                            }
+                        };
+                        var data = JSON.stringify({"prodname": "{{prodname}}", "prodcategory": "{{prodcategory}}"});
                         xhr.send(data);
                     }
 
