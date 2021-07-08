@@ -50,31 +50,6 @@ app.secret_key = 'super secret key'
 #     print(f"Error connecting to MariaDB Platform: {e}")
 #     exit()
 
-def makemeal():
-
-    recipe_input = int(input("Välj recept: "))-1
-    product_documents = product_response['RecipeResult']['Documents'][recipe_input]
-    recipe_id = product_documents['_id']
-
-    url = f"https://handla.api.ica.se//api/recipes/recipe/{recipe_id}"
-    response = requests.get(url)
-    json_data = response.json()
-    recipe_title = json_data['Title']
-    avalible_portions = json_data['ExtraPortions']
-    cooking_steps = json_data['CookingStepsWithTimers']
-    cooking_time = json_data['CookingTime']
-    recipe_ingredients = json_data['IngredientGroups']
-    # How to render åäö: html.unescape
-    #for k in recipe_ingredients[0]['Ingredients']:
-        #print(k['Text'])
-
-    # AVALIBLE PORTIONS
-    #for x in avalible_portions:
-        #print(x['Portions'])
-
-
-
-
 
 def readdatabase():
     c = conn.cursor()
@@ -165,6 +140,32 @@ def findmeal():
         })
 
     return render_template('findmeal.html',recipies=recipies)
+
+@app.route('/makemeal/<recipe_id>')
+def makemeal(recipe_id):
+
+    url = f"https://handla.api.ica.se//api/recipes/recipe/{recipe_id}"
+    response = requests.get(url)
+    json_data = response.json()
+    print(json_data)
+    recipe_title = json_data['Title']
+    avalible_portions = json_data['ExtraPortions']
+    cooking_steps = json_data['CookingStepsWithTimers']
+    cooking_time = json_data['CookingTime']
+    recipe_ingredients = json_data['IngredientGroups']
+    ingredients = []
+    for k in recipe_ingredients[0]['Ingredients']:
+        print(k['Text'])
+        ingredients.append(k['Text'])
+
+    return render_template('makemeal.html',recipe_title=recipe_title,avalible_portions=avalible_portions,cooking_steps=cooking_steps,cooking_time=cooking_time,recipe_ingredients=ingredients)
+    # How to render åäö: html.unescape
+
+
+    # AVALIBLE PORTIONS
+    #for x in avalible_portions:
+        #print(x['Portions'])
+
 
 
 @app.route("/readdatabase")
