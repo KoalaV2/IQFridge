@@ -50,35 +50,6 @@ app.secret_key = 'super secret key'
 #     print(f"Error connecting to MariaDB Platform: {e}")
 #     exit()
 
-
-@app.route('/findmeal')
-def findmeal():
-    get_prodid_url = "https://www.ica.se/api/search/v2/quicksearch?query="
-    product = "Kykling och curry"
-    response = requests.get(f"{get_prodid_url}{product}")
-    product_response = response.json()
-
-    recipies = []
-
-    for x in range(min(3, len(product_response['RecipeResult']['Documents']))):
-        product_documents = product_response['RecipeResult']['Documents'][x]
-        recipe_id = product_documents['_id']
-        recipe_title = product_documents['Title'].strip()
-        recipe_cook_time = product_documents['CookingTimeValue']
-        recipe_rating = product_documents['Rating']['AverageRating']
-        recipe_image = product_documents['Images'][0]['AbsoluteUrl']
-        #print(recipe_image[0]['AbsoluteUrl'])
-        print(f"{x+1}. {recipe_title} med ID {recipe_id} tar {recipe_cook_time} minuter att laga och har betyget {recipe_rating} stjärnor")
-
-
-        recipies.append({
-            "recipe_id":recipe_id,
-            "recipe_title":recipe_title,
-            "recipe_image":recipe_image
-        })
-
-    return render_template('findmeal.html',recipies=recipies)
-
 def makemeal():
 
     recipe_input = int(input("Välj recept: "))-1
@@ -163,6 +134,38 @@ def BarcodeReader(args=None):
 @app.route("/")
 def index():
     return render_template("index.html")
+@app.route('/findmeal', methods=['GET','POST'])
+def findmeal():
+    form_data = request.form
+    print(form_data['Name'])
+    get_prodid_url = "https://www.ica.se/api/search/v2/quicksearch?query="
+    product = form_data['Name']
+    response = requests.get(f"{get_prodid_url}{product}")
+    product_response = response.json()
+
+    recipies = []
+
+    for x in range(min(3, len(product_response['RecipeResult']['Documents']))):
+        product_documents = product_response['RecipeResult']['Documents'][x]
+        recipe_id = product_documents['_id']
+        recipe_title = product_documents['Title'].strip()
+        recipe_cook_time = product_documents['CookingTimeValue']
+        recipe_rating = product_documents['Rating']['AverageRating']
+        recipe_image = product_documents['Images'][0]['AbsoluteUrl']
+        # print(recipe_image[0]['AbsoluteUrl'])
+        # print(f"{x+1}. {recipe_title} med ID {recipe_id} tar {recipe_cook_time} minuter att laga och har betyget {recipe_rating} stjärnor")
+
+
+        recipies.append({
+            "recipe_id":recipe_id,
+            "recipe_title":recipe_title,
+            "recipe_image":recipe_image,
+            "recipe_rating":recipe_rating
+        })
+
+    return render_template('findmeal.html',recipies=recipies)
+
+
 @app.route("/readdatabase")
 def vadikylen():
     row = readdatabase()
