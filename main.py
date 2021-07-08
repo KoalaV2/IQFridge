@@ -121,7 +121,7 @@ def findmeal():
         response = requests.get(f"{get_prodid_url}{product}")
         product_response = response.json()
 
-        
+
 
         for x in range(min(3, len(product_response['RecipeResult']['Documents']))):
             product_documents = product_response['RecipeResult']['Documents'][x]
@@ -151,18 +151,23 @@ def makemeal(recipe_id):
     url = f"https://handla.api.ica.se//api/recipes/recipe/{recipe_id}"
     response = requests.get(url)
     json_data = response.json()
-    print(json_data)
     recipe_title = json_data['Title']
     avalible_portions = json_data['ExtraPortions']
     cooking_steps = json_data['CookingStepsWithTimers']
     cooking_time = json_data['CookingTime']
     recipe_ingredients = json_data['IngredientGroups']
+    recipe_image = json_data['ImageUrl']
     ingredients = []
+    directions = []
     for k in recipe_ingredients[0]['Ingredients']:
         print(k['Text'])
         ingredients.append(k['Text'])
+    for k in cooking_steps:
+        directions.append(html.unescape(k['Description']))
 
-    return render_template('makemeal.html',recipe_title=recipe_title,avalible_portions=avalible_portions,cooking_steps=cooking_steps,cooking_time=cooking_time,recipe_ingredients=ingredients)
+
+
+    return render_template('makemeal.html',recipe_title=recipe_title,avalible_portions=avalible_portions,cooking_steps=directions,cooking_time=cooking_time,recipe_ingredients=ingredients,recipe_image=recipe_image)
     # How to render åäö: html.unescape
 
 
