@@ -5,7 +5,7 @@ import threading
 import json
 import mariadb
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from ourgroceries import OurGroceries
 import asyncio
 from flask import Flask
@@ -30,25 +30,25 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 app.secret_key = 'super secret key'
 
-load_dotenv()
-DB_USER = os.getenv("DB_USER")
-DB_PASSWD = os.getenv("DB_PASSWD")
-DB_IP = os.getenv("DB_IP")
-DB_DATABASE = os.getenv("DB_DATABASE")
+# # load_dotenv()
+# DB_USER = os.getenv("DB_USER")
+# DB_PASSWD = os.getenv("DB_PASSWD")
+# DB_IP = os.getenv("DB_IP")
+# DB_DATABASE = os.getenv("DB_DATABASE")
 
 
-try:
-    conn = mariadb.connect(
-        user=DB_USER,
-        password=DB_PASSWD,
-        host=DB_IP,
-        port=3306,
-        database=DB_DATABASE
+# try:
+#     conn = mariadb.connect(
+#         user=DB_USER,
+#         password=DB_PASSWD,
+#         host=DB_IP,
+#         port=3306,
+#         database=DB_DATABASE
 
-    )
-except mariadb.Error as e:
-    print(f"Error connecting to MariaDB Platform: {e}")
-    exit()
+#     )
+# except mariadb.Error as e:
+#     print(f"Error connecting to MariaDB Platform: {e}")
+#     exit()
 
 
 @app.route('/findmeal')
@@ -57,6 +57,9 @@ def findmeal():
     product = "Kykling och curry"
     response = requests.get(f"{get_prodid_url}{product}")
     product_response = response.json()
+
+    recipies = []
+
     for x in range(min(3, len(product_response['RecipeResult']['Documents']))):
         product_documents = product_response['RecipeResult']['Documents'][x]
         recipe_id = product_documents['_id']
@@ -66,7 +69,15 @@ def findmeal():
         recipe_image = product_documents['Images'][0]['AbsoluteUrl']
         #print(recipe_image[0]['AbsoluteUrl'])
         print(f"{x+1}. {recipe_title} med ID {recipe_id} tar {recipe_cook_time} minuter att laga och har betyget {recipe_rating} stjärnor")
-    return render_template('findmeal.html',recipe_id=recipe_id,recipe_title=recipe_title,recipe_image=recipe_image)
+
+
+        recipies.append({
+            "recipe_id":recipe_id,
+            "recipe_title":recipe_title,
+            "recipe_image":recipe_image
+        })
+
+    return render_template('findmeal.html',recipies=recipies)
 
 def makemeal():
 
@@ -205,7 +216,7 @@ def writeproduct():
 
 
 def main():
-    app.run(host= "0.0.0.0",ssl_context='adhoc')
+    app.run(ssl_context='adhoc')
 
 if __name__ == "__main__":
     main()
