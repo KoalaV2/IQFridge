@@ -5,7 +5,7 @@ import threading
 import json
 import mariadb
 import os
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 from ourgroceries import OurGroceries
 import asyncio
 from flask import Flask
@@ -30,25 +30,25 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 app.secret_key = 'super secret key'
 
-# # load_dotenv()
-# DB_USER = os.getenv("DB_USER")
-# DB_PASSWD = os.getenv("DB_PASSWD")
-# DB_IP = os.getenv("DB_IP")
-# DB_DATABASE = os.getenv("DB_DATABASE")
+load_dotenv()
+DB_USER = os.getenv("DB_USER")
+DB_PASSWD = os.getenv("DB_PASSWD")
+DB_IP = os.getenv("DB_IP")
+DB_DATABASE = os.getenv("DB_DATABASE")
 
 
-# try:
-#     conn = mariadb.connect(
-#         user=DB_USER,
-#         password=DB_PASSWD,
-#         host=DB_IP,
-#         port=3306,
-#         database=DB_DATABASE
+try:
+    conn = mariadb.connect(
+        user=DB_USER,
+        password=DB_PASSWD,
+        host=DB_IP,
+        port=3306,
+        database=DB_DATABASE
 
-#     )
-# except mariadb.Error as e:
-#     print(f"Error connecting to MariaDB Platform: {e}")
-#     exit()
+    )
+except mariadb.Error as e:
+    print(f"Error connecting to MariaDB Platform: {e}")
+    exit()
 
 
 def readdatabase():
@@ -230,7 +230,7 @@ def writeproduct():
 
 
 def main():
-    app.run(ssl_context='adhoc')
+    app.run(host="0.0.0.0",ssl_context='adhoc')
 
 if __name__ == "__main__":
     main()
