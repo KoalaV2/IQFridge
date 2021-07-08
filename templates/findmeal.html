@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>IQFridge</title>
+    <link
+      href="{{ url_for('static', filename='css/style.css') }}"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <h2 align="center">Find a meal.</h2>
+    <p align="center">
+      <span> {{ recipe_id }} </span>
+      <br/>
+      <span> {{ recipe_title }} </span>
+      <br/>
+      <img src="{{ recipe_image }}" /> </img>
+    </p>
+  </body>
+</html>

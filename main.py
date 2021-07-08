@@ -51,6 +51,7 @@ except mariadb.Error as e:
     exit()
 
 
+@app.route('/findmeal')
 def findmeal():
     get_prodid_url = "https://www.ica.se/api/search/v2/quicksearch?query="
     product = "Kykling och curry"
@@ -62,9 +63,10 @@ def findmeal():
         recipe_title = product_documents['Title'].strip()
         recipe_cook_time = product_documents['CookingTimeValue']
         recipe_rating = product_documents['Rating']['AverageRating']
-        #recipe_image = product_documents['Images']
+        recipe_image = product_documents['Images'][0]['AbsoluteUrl']
         #print(recipe_image[0]['AbsoluteUrl'])
         print(f"{x+1}. {recipe_title} med ID {recipe_id} tar {recipe_cook_time} minuter att laga och har betyget {recipe_rating} stjärnor")
+    return render_template('findmeal.html',recipe_id=recipe_id,recipe_title=recipe_title,recipe_image=recipe_image)
 
 def makemeal():
 
