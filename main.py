@@ -160,7 +160,8 @@ def findmeal():
             "recipe_id":recipe_id,
             "recipe_title":recipe_title,
             "recipe_image":recipe_image,
-            "recipe_rating":recipe_rating
+            "recipe_rating":recipe_rating,
+            "recipe_cook_time":recipe_cook_time
         })
 
     return render_template('findmeal.html',recipies=recipies)
