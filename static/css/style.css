@@ -57,6 +57,13 @@ p {
   gap: 2em;
 }
 
+@media only screen and (max-width: 667px) {
+  .main-container {
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+}
+
 .main-container .title-container {
   height: 30%;
   width: 100%;
@@ -113,6 +120,12 @@ p {
             flex-direction: column;
     gap: 2em;
   }
+}
+
+.main-container .content-container div.recipe-container div.recipe {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
 
 .main-container .content-container div.recipe-container div.recipe img.recipe-image {

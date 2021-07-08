@@ -21,23 +21,24 @@
             <p><input type = "submit" value = "Submit" /></p>
             </form>
 
-
 			<div class="content-container">
 
 				<div class="recipe-container">
 					{% for recipe in recipies %}
 						<div class="recipe">
                             <span> {{ recipe['recipe_rating'] }} </span>
+							<br>
 							<span> {{ recipe['recipe_id'] }} </span>
 							<br>
 							<span> {{ recipe['recipe_title'] }} </span>
 							<br>
-							<img class="recipe-image"  src="{{ recipe['recipe_image'] }}" /> </img>
+							<img class="recipe-image" recipe_id="{{ recipe['recipe_id'] }}" src="{{ recipe['recipe_image'] }}" onclick="window.open('/makemeal/'+this.getAttribute('recipe_id'))">
 						</div>
 					{% endfor %}
 				</div>
 
 			</div>
+
 		</div>
 
 	</body>
