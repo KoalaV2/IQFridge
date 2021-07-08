@@ -66,6 +66,8 @@ def findmeal():
         #print(recipe_image[0]['AbsoluteUrl'])
         print(f"{x+1}. {recipe_title} med ID {recipe_id} tar {recipe_cook_time} minuter att laga och har betyget {recipe_rating} stjärnor")
 
+def makemeal():
+
     recipe_input = int(input("Välj recept: "))-1
     product_documents = product_response['RecipeResult']['Documents'][recipe_input]
     recipe_id = product_documents['_id']
@@ -81,6 +83,12 @@ def findmeal():
     # How to render åäö: html.unescape
     #for k in recipe_ingredients[0]['Ingredients']:
         #print(k['Text'])
+
+    # AVALIBLE PORTIONS
+    #for x in avalible_portions:
+        #print(x['Portions'])
+
+
 
 
 
