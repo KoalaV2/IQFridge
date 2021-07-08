@@ -78,6 +78,11 @@ p{
     flex-direction: column;
     gap: 2em;
 
+    @include for_breakpoint(mobile) {
+        margin-top: 2em;
+        margin-bottom: 2em;
+    }
+
     .title-container{
         height: 30%;
         width: 100%;
@@ -85,7 +90,7 @@ p{
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-direction: column;
+        flex-direction: column;        
     }
 
     .content-container{
@@ -107,8 +112,9 @@ p{
                 gap: 2em;
             }
 
-
             div.recipe{
+                flex: 1;
+
                 img.recipe-image{
                     width: 80%;
         
