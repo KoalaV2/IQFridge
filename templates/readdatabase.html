@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Read Database</title>
+        <title>Läs databasen.</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
@@ -13,9 +13,9 @@
     <body>
         <table id="myTable" align="center">
             <tr>
-              <th onclick="sortTable(0)">Name</th>
-              <th onclick="sortTable(1)">Category</th>
-              <th onclick="sortTable(2)">Expiry Date</th>
+              <th onclick="sortTable(0)"> Namn </th>
+              <th onclick="sortTable(1)"> Typ </th>
+              <th onclick="sortTable(2)"> Utgångsdatum </th>
             </tr>
             {% for x in data %}
                 <tr>
