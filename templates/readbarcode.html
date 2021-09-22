@@ -23,7 +23,7 @@
                     //
                     function sendtodatabase() {
                         var xhr = new XMLHttpRequest();
-                        var url = "https://localhost:5000/writeproduct";
+                        var url = "https://192.168.68.112:5000/writeproduct";
                         xhr.open("POST", url, true);
                         xhr.setRequestHeader("Content-Type", "application/json");
                         xhr.onreadystatechange = function () {

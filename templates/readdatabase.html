@@ -16,12 +16,14 @@
               <th onclick="sortTable(0)"> Namn </th>
               <th onclick="sortTable(1)"> Typ </th>
               <th onclick="sortTable(2)"> Utgångsdatum </th>
+              <th onclick="sortTable(2)"> Öppnad? </th>
             </tr>
             {% for x in data %}
                 <tr>
                     <td>{{x[0]}}</td>
                     <td>{{x[1]}}</td>
                     <td>{{x[2]}}</td>
+                    <th> <input type="checkbox"> </input> </th>
                 </tr>
             {%endfor%}
         </table>
