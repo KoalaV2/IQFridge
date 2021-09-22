@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import time
-import threading
 import json
 import mariadb
 import os
@@ -9,17 +7,13 @@ from dotenv import load_dotenv
 from ourgroceries import OurGroceries
 import asyncio
 from flask import Flask
-from flask import Markup
 from flask import render_template
 from flask import request
-from flask import flash
 from flask import redirect
 from flask import url_for
 import cv2
 from pyzbar.pyzbar import decode
 import requests
-import sys
-import argparse
 import requests
 import json
 import html
