@@ -11,30 +11,34 @@
         </style>
     </head>
     <body>
-        <table id="myTable" align="center">
-            <tr>
-              <th onclick="sortTable(0)"> ID </th>
-              <th onclick="sortTable(1)"> Namn </th>
-              <th onclick="sortTable(2)"> Typ </th>
-              <th onclick="sortTable(3)"> Utgångsdatum </th>
-              <th onclick="sortTable(4)"> Öppnad? </th>
-            </tr>
-            {% for x in data %}
+        <table class="myTable" align="center">
+            <thead>
                 <tr>
-                    <td>{{x[0]}}</td>
-                    <td>{{x[1]}}</td>
-                    <td>{{x[2]}}</td>
-                    <td>{{x[3]}}</td>
-                    <!-- <th> <input id="checkbox" type="checkbox" onchange="doalert(this,{{x[0]}})"> </input> </th> -->
-                    <th>
-                    {% if x[4] == 1 %}
-                         <input id="checkbox" type="checkbox" onchange="doalert(this,{{x[0]}})" checked>
-                    {% else %}
-                         <input id="checkbox" type="checkbox" onchange="doalert(this,{{x[0]}})">
-                     </th>
-                     {%endif%}
+                  <th onclick="sortTable(0)"> ID </th>
+                  <th onclick="sortTable(1)"> Namn </th>
+                  <th onclick="sortTable(2)"> Typ </th>
+                  <th onclick="sortTable(3)"> Utgångsdatum </th>
+                  <th onclick="sortTable(4)"> Öppnad? </th>
                 </tr>
-            {%endfor%}
+            </thead>
+            <tbody>
+                {% for x in data %}
+                    <tr>
+                        <td>{{x[0]}}</td>
+                        <td>{{x[1]}}</td>
+                        <td>{{x[2]}}</td>
+                        <td>{{x[3]}}</td>
+                        <!-- <th> <input id="checkbox" type="checkbox" onchange="doalert(this,{{x[0]}})"> </input> </th> -->
+                        <th>
+                        {% if x[4] == 1 %}
+                             <input id="checkbox" type="checkbox" onchange="doalert(this,{{x[0]}})" checked>
+                        {% else %}
+                             <input id="checkbox" type="checkbox" onchange="doalert(this,{{x[0]}})">
+                         </th>
+                         {%endif%}
+                    </tr>
+                {%endfor%}
+            </tbody>
         </table>
         <script>
             // TODO: Be able to search through all of the products.
