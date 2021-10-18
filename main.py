@@ -32,6 +32,7 @@ DB_DATABASE = os.getenv("DB_DATABASE")
 
 
 try:
+    print("[*] Trying to connect to the database...")
     conn = mariadb.connect(
         user=DB_USER,
         password=DB_PASSWD,
@@ -41,14 +42,15 @@ try:
 
     )
 except mariadb.Error as e:
+    print(e)
     print(f"Error connecting to MariaDB Platform: {e}")
     exit()
 
 
 def readdatabase():
     c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS fridge (name VARCHAR(255),category VARCHAR(255),expdate VARCHAR(255))''')
-    cursor = c.execute("SELECT name,category,expdate FROM fridge")
+    c.execute('''CREATE TABLE IF NOT EXISTS fridge (name VARCHAR(255),category VARCHAR(255),expdate VARCHAR(255),opened TINYINT(0) DEFAULT '0')''')
+    c.execute("SELECT name,category,expdate FROM fridge")
     return c
 
 def getlist():
@@ -174,7 +176,7 @@ def makemeal(recipe_id):
 @app.route("/readdatabase")
 def vadikylen():
     row = readdatabase()
-    return render_template('readdatabase.html',data=row)
+    return render_template('readdatabase.html',data=row,prodop=True)
 @app.route("/readbar")
 def readbar():
     result = BarcodeReader()
@@ -212,12 +214,13 @@ def writeproduct():
     content = request.json
     print(content)
     c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS fridge (name VARCHAR(255),category VARCHAR(255),expdate VARCHAR(255))''')
+    c.execute('''CREATE TABLE IF NOT EXISTS fridge (name VARCHAR(255),category VARCHAR(255),expdate VARCHAR(255),opened TINYINT(0))''')
     prodname = content['prodname']
     prodcategory = content['prodcategory']
     # prodexpdate = content['prodexpdate']
     prodexpdate = "2021-02-02"
-    c.execute("INSERT INTO fridge VALUES (?,?,?);", (prodname, prodcategory, prodexpdate))
+    prodop = True
+    c.execute("INSERT INTO fridge VALUES (?,?,?,?);", (prodname, prodcategory, prodexpdate,prodop))
     conn.commit()
     return(f"Product: {prodname} has been added to the database.")
 
