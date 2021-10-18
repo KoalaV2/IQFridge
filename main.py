@@ -197,6 +197,10 @@ def readbar():
 @app.route('/takeimage')
 def takeimage():
     return render_template('upload.html')
+@app.route('/checkedbox', methods=['POST'])
+def checkedbox():
+    content = request.json
+    return content
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
