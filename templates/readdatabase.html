@@ -13,40 +13,70 @@
     <body>
         <table id="myTable" align="center">
             <tr>
-              <th onclick="sortTable(0)"> Namn </th>
-              <th onclick="sortTable(1)"> Typ </th>
-              <th onclick="sortTable(2)"> Utgångsdatum </th>
-              <th onclick="sortTable(2)"> Öppnad? </th>
+              <th onclick="sortTable(0)"> ID </th>
+              <th onclick="sortTable(1)"> Namn </th>
+              <th onclick="sortTable(2)"> Typ </th>
+              <th onclick="sortTable(3)"> Utgångsdatum </th>
+              <th onclick="sortTable(4)"> Öppnad? </th>
             </tr>
             {% for x in data %}
                 <tr>
                     <td>{{x[0]}}</td>
                     <td>{{x[1]}}</td>
                     <td>{{x[2]}}</td>
-                    <th> <input id="checkbox" type="checkbox" onchange="doalert(this)"> </input> </th>
+                    <td>{{x[3]}}</td>
+                    <!-- <th> <input id="checkbox" type="checkbox" onchange="doalert(this,{{x[0]}})"> </input> </th> -->
+                    <th>
+                    {% if x[4] == 1 %}
+                         <input id="checkbox" type="checkbox" onchange="doalert(this,{{x[0]}})" checked>
+                    {% else %}
+                         <input id="checkbox" type="checkbox" onchange="doalert(this,{{x[0]}})">
+                     </th>
+                     {%endif%}
                 </tr>
             {%endfor%}
         </table>
         <script>
             // TODO: Be able to search through all of the products.
             var checkboxcheck = document.getElementById("checkbox").checked;
-            console.log(checkboxcheck)
+            var checkbox = document.getElementById("checkbox");
+            console.log(checkbox);
+            var xhr = new XMLHttpRequest();
+            var url = "https://0.0.0.0:5000/checkedbox";
+            xhr.open("GET", url, true);
+            xhr.send()
 
-            function doalert(checkboxElem) {
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText)
+                }
+            };
+
+            function doalert(checkboxElem,prodid) {
                 if (checkboxElem.checked) {
                     var xhr = new XMLHttpRequest();
                     var url = "https://0.0.0.0:5000/checkedbox";
                     xhr.open("POST", url, true);
                     xhr.setRequestHeader("Content-Type", "application/json");
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState === 4 && xhr.status === 200) {
-                            console.log(xhr.responseText)
-                        }
-                    };
-                    var data = JSON.stringify({"prodname": "{{prodname}}","checkboxcheck":true});
+                    // xhr.onreadystatechange = function () {
+                        // if (xhr.readyState === 4 && xhr.status === 200) {
+                            // console.log(xhr.responseText)
+                        // }
+                    // };
+                    var data = JSON.stringify({"prodid": prodid,"checkboxcheck":true});
                     xhr.send(data);
                 } else {
-                    console.log("notchecked")
+                    var xhr = new XMLHttpRequest();
+                    var url = "https://0.0.0.0:5000/checkedbox";
+                    xhr.open("POST", url, true);
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    // xhr.onreadystatechange = function () {
+                        // if (xhr.readyState === 4 && xhr.status === 200) {
+                            // console.log(xhr.responseText)
+                        // }
+                    // };
+                    var data = JSON.stringify({"prodid": prodid,"checkboxcheck":false});
+                    xhr.send(data);
                 }
             }
             function sortTable(n) {

@@ -11,6 +11,7 @@ from flask import render_template
 from flask import request
 from flask import redirect
 from flask import url_for
+from flask import jsonify
 import cv2
 from pyzbar.pyzbar import decode
 import requests
@@ -49,8 +50,8 @@ except mariadb.Error as e:
 
 def readdatabase():
     c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS fridge (name VARCHAR(255),category VARCHAR(255),expdate VARCHAR(255),opened TINYINT(0) DEFAULT '0')''')
-    c.execute("SELECT name,category,expdate FROM fridge")
+    c.execute('''CREATE TABLE IF NOT EXISTS fridge (id MEDIUMINT NOT NULL AUTO_INCREMENT, name VARCHAR(255),category VARCHAR(255),expdate VARCHAR(255),opened TINYINT(0), PRIMARY KEY (id))''')
+    c.execute("SELECT id,name,category,expdate,opened FROM fridge")
     return c
 
 def getlist():
@@ -176,7 +177,7 @@ def makemeal(recipe_id):
 @app.route("/readdatabase")
 def vadikylen():
     row = readdatabase()
-    return render_template('readdatabase.html',data=row,prodop=True)
+    return render_template('readdatabase.html',data=row)
 @app.route("/readbar")
 def readbar():
     result = BarcodeReader()
@@ -197,10 +198,29 @@ def readbar():
 @app.route('/takeimage')
 def takeimage():
     return render_template('upload.html')
-@app.route('/checkedbox', methods=['POST'])
+@app.route('/checkedbox', methods=['GET','POST'])
 def checkedbox():
-    content = request.json
-    return content
+    c = conn.cursor()
+    if request.method == 'POST':
+        content = request.json
+        prodid = content["prodid"]
+        checkbox = content["checkboxcheck"]
+
+        if checkbox:
+            c.execute(f"UPDATE fridge SET opened=1 WHERE id={prodid};")
+            conn.commit()
+        else:
+            c.execute(f"UPDATE fridge SET opened=0 WHERE id={prodid};")
+            conn.commit()
+        return content
+    elif request.method == 'GET':
+        # c.execute("SELECT id,opened FROM fridge;")
+        # message = []
+        c.execute("SELECT id,opened FROM fridge;")
+        message = [{"prodid": results[0],"prodop": results[1]} for results in c]
+        json_string = json.dumps(message,indent=4)
+        return json_string
+
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
@@ -218,13 +238,13 @@ def writeproduct():
     content = request.json
     print(content)
     c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS fridge (name VARCHAR(255),category VARCHAR(255),expdate VARCHAR(255),opened TINYINT(0))''')
+    c.execute('''CREATE TABLE IF NOT EXISTS fridge (id MEDIUMINT NOT NULL AUTO_INCREMENT, name VARCHAR(255),category VARCHAR(255),expdate VARCHAR(255),opened TINYINT(0), PRIMARY KEY (id))''')
     prodname = content['prodname']
     prodcategory = content['prodcategory']
     # prodexpdate = content['prodexpdate']
     prodexpdate = "2021-02-02"
     prodop = True
-    c.execute("INSERT INTO fridge VALUES (?,?,?,?);", (prodname, prodcategory, prodexpdate,prodop))
+    c.execute("INSERT INTO fridge (name,category,expdate,opened) VALUES (?,?,?,?);", (prodname, prodcategory, prodexpdate,prodop))
     conn.commit()
     return(f"Product: {prodname} has been added to the database.")
 
