@@ -11,7 +11,7 @@
         </style>
     </head>
     <body>
-        <table class="myTable" align="center">
+        <table class="myTable" id="Table" align="center">
             <thead>
                 <tr>
                   <th onclick="sortTable(0)"> ID </th>
@@ -96,7 +96,7 @@
             }
             function sortTable(n) {
               var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-              table = document.getElementById("myTable");
+              table = document.getElementById("Table");
               switching = true;
               // Set the sorting direction to ascending:
               dir = "asc";
