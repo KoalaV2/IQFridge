@@ -205,17 +205,18 @@ def checkedbox():
         content = request.json
         prodid = content["prodid"]
         checkbox = content["checkboxcheck"]
+        dateopened = content["dateopened"]
 
         if checkbox:
             c.execute(f"UPDATE fridge SET opened=1 WHERE id={prodid};")
+            c.execute(f"UPDATE fridge SET dateop='{dateopened}' WHERE id={prodid};")
             conn.commit()
         else:
             c.execute(f"UPDATE fridge SET opened=0 WHERE id={prodid};")
+            c.execute(f"UPDATE fridge SET dateop=NULL WHERE id={prodid};")
             conn.commit()
         return content
     elif request.method == 'GET':
-        # c.execute("SELECT id,opened FROM fridge;")
-        # message = []
         c.execute("SELECT id,opened FROM fridge;")
         message = [{"prodid": results[0],"prodop": results[1]} for results in c]
         json_string = json.dumps(message,indent=4)

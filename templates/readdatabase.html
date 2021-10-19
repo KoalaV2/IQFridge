@@ -58,6 +58,15 @@
 
             function doalert(checkboxElem,prodid) {
                 if (checkboxElem.checked) {
+                    var currentdate = new Date();
+                    var datetime = currentdate.getFullYear() + "-"
+                        + (currentdate.getMonth()+1)  + "-"
+                        + currentdate.getDate() + " "
+                        + currentdate.getHours() + ":"
+                        + currentdate.getMinutes() + ":"
+                        + currentdate.getSeconds();
+                    console.log(datetime);
+
                     var xhr = new XMLHttpRequest();
                     var url = "https://0.0.0.0:5000/checkedbox";
                     xhr.open("POST", url, true);
@@ -67,7 +76,7 @@
                             // console.log(xhr.responseText)
                         // }
                     // };
-                    var data = JSON.stringify({"prodid": prodid,"checkboxcheck":true});
+                    var data = JSON.stringify({"prodid": prodid,"checkboxcheck":true,"dateopened":datetime});
                     xhr.send(data);
                 } else {
                     var xhr = new XMLHttpRequest();
@@ -79,7 +88,7 @@
                             // console.log(xhr.responseText)
                         // }
                     // };
-                    var data = JSON.stringify({"prodid": prodid,"checkboxcheck":false});
+                    var data = JSON.stringify({"prodid": prodid,"checkboxcheck":false,"dateopened":"NULL"});
                     xhr.send(data);
                 }
             }
