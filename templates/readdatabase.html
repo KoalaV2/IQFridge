@@ -48,7 +48,7 @@
             var checkbox = document.getElementById("checkbox");
             console.log(checkbox);
             var xhr = new XMLHttpRequest();
-            var url = "https://0.0.0.0:5000/checkedbox";
+            var url = "{{ url_for('checkedbox') }}"
             xhr.open("GET", url, true);
             xhr.send()
 
@@ -70,7 +70,7 @@
                     console.log(datetime);
 
                     var xhr = new XMLHttpRequest();
-                    var url = "https://0.0.0.0:5000/checkedbox";
+                    var url = "{{ url_for('checkedbox') }}"
                     xhr.open("POST", url, true);
                     xhr.setRequestHeader("Content-Type", "application/json");
                     // xhr.onreadystatechange = function () {
@@ -82,7 +82,7 @@
                     xhr.send(data);
                 } else {
                     var xhr = new XMLHttpRequest();
-                    var url = "https://0.0.0.0:5000/checkedbox";
+                    var url = "{{ url_for('checkedbox') }}"
                     xhr.open("POST", url, true);
                     xhr.setRequestHeader("Content-Type", "application/json");
                     // xhr.onreadystatechange = function () {

@@ -21,7 +21,7 @@
                 <script>
                     function sendtodatabase() {
                         var xhr = new XMLHttpRequest();
-                        var url = "https://0.0.0.0:5000/writeproduct";
+                        var url = "{{ url_for('readbar') }}";
                         xhr.open("POST", url, true);
                         xhr.setRequestHeader("Content-Type", "application/json");
                         xhr.onreadystatechange = function () {
