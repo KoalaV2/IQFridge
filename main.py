@@ -178,7 +178,7 @@ def makemeal(recipe_id):
 def vadikylen():
     row = readdatabase()
     return render_template('readdatabase.html',data=row)
-@app.route("/readbar")
+@app.route("/readbar", methods=['GET','POST'])
 def readbar():
     result = BarcodeReader()
     if result == "Not detected":
