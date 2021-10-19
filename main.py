@@ -51,7 +51,7 @@ except mariadb.Error as e:
 def readdatabase():
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS fridge (id MEDIUMINT NOT NULL AUTO_INCREMENT, name VARCHAR(255),category VARCHAR(255),expdate VARCHAR(255),opened TINYINT(0), PRIMARY KEY (id))''')
-    c.execute("SELECT id,name,category,expdate,opened FROM fridge")
+    c.execute("SELECT id,name,category,expdate,opened,dateop FROM fridge")
     return c
 
 def getlist():

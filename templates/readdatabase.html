@@ -19,6 +19,7 @@
                   <th onclick="sortTable(2)"> Typ </th>
                   <th onclick="sortTable(3)"> Utgångsdatum </th>
                   <th onclick="sortTable(4)"> Öppnad? </th>
+                  <th onclick="sortTable(5)"> Tid öppnad. </th>
                 </tr>
             </thead>
             <tbody>
@@ -28,7 +29,7 @@
                         <td>{{x[1]}}</td>
                         <td>{{x[2]}}</td>
                         <td>{{x[3]}}</td>
-                        <!-- <th> <input id="checkbox" type="checkbox" onchange="doalert(this,{{x[0]}})"> </input> </th> -->
+
                         <th>
                         {% if x[4] == 1 %}
                              <input id="checkbox" type="checkbox" onchange="doalert(this,{{x[0]}})" checked>
@@ -36,6 +37,7 @@
                              <input id="checkbox" type="checkbox" onchange="doalert(this,{{x[0]}})">
                          </th>
                          {%endif%}
+                        <td>{{x[5]}}</td>
                     </tr>
                 {%endfor%}
             </tbody>
