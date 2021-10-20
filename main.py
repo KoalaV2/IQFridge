@@ -79,16 +79,13 @@ def BarcodeReader(args=None):
         detectedBarcodes = decode(img)
     except:
         return "Not detected"
-    # while detectedBarcodes == []:
-    #     detectedBarcodes = decode(img)
-    #     print(detectedBarcodes)
 
     # If not detected then print the message
     if not detectedBarcodes:
         print("Barcode Not Detected or your barcode is blank/corrupted!")
         return("Not detected")
     else:
-          # Traveres through all the detected barcodes in image
+          # Travers through all the detected barcodes in image
         for barcode in detectedBarcodes:
             if barcode.data!="":
             # Print the barcode data
@@ -99,8 +96,16 @@ def BarcodeReader(args=None):
     print(url)
     response = requests.get(url)
     json_data = json.loads(response.text)
-    json_data_product = json_data['product']
-    return json_data_product
+    # json_data_product = json_data['product']
+    try:
+        json_data_product = json_data['product']
+        return json_data_product
+    except Exception as e:
+        icaurl = f"https://handla.api.ica.se/api/upclookup?upc={prodid}"
+        response = requests.get(icaurl)
+        jsondata = json.loads(response.text)
+        return jsondata['Items']
+
 
 
 @app.route("/")
@@ -185,16 +190,24 @@ def readbar():
         return redirect(url_for('takeimage'))
     else:
         try:
-            productimage = result['image_front_url']
+            prodname = result['product_name']
+            try:
+                productimage = result['image_front_url']
+            except:
+                productimage = "Image not found."
+            try:
+                prodcategory = result['categories_tags'][0]
+                prodcategory = prodcategory.replace("en:","")
+            except:
+                prodcategory = "Category not found."
+            return render_template('readbarcode.html',prodname=prodname,prodcategory=prodcategory,productimage=productimage)
         except:
-            productimage = "Image not found."
-        prodname = result['product_name']
-        try:
-            prodcategory = result['categories_tags'][0]
-            prodcategory = prodcategory.replace("en:","")
-        except:
-            prodcategory = "Category not found."
-        return render_template('readbarcode.html',prodname=prodname,prodcategory=prodcategory,productimage=productimage)
+            # itemdesc = result['ItemsDescription']
+            # print(itemdesc)
+            for items in result:
+                itemdesc = items['ItemDescription']
+                return itemdesc
+
 @app.route('/takeimage')
 def takeimage():
     return render_template('upload.html')
