@@ -255,7 +255,7 @@ def writeproduct():
     prodcategory = content['prodcategory']
     # prodexpdate = content['prodexpdate']
     prodexpdate = "2021-02-02"
-    prodop = True
+    prodop = False
     c.execute("INSERT INTO fridge (name,category,expdate,opened) VALUES (?,?,?,?);", (prodname, prodcategory, prodexpdate,prodop))
     conn.commit()
     return(f"Product: {prodname} has been added to the database.")
