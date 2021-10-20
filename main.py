@@ -202,11 +202,9 @@ def readbar():
                 prodcategory = "Category not found."
             return render_template('readbarcode.html',prodname=prodname,prodcategory=prodcategory,productimage=productimage)
         except:
-            # itemdesc = result['ItemsDescription']
-            # print(itemdesc)
             for items in result:
                 itemdesc = items['ItemDescription']
-                return itemdesc
+                return render_template('readbarcode.html',prodname=itemdesc,prodcategory="Unkown")
 
 @app.route('/takeimage')
 def takeimage():
