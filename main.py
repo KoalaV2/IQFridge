@@ -199,7 +199,7 @@ def readbar():
                 prodcategory = result['categories_tags'][0]
                 prodcategory = prodcategory.replace("en:","")
             except:
-                prodcategory = "Category not found."
+                prodcategory = "Unkown"
             return render_template('readbarcode.html',prodname=prodname,prodcategory=prodcategory,productimage=productimage)
         except:
             for items in result:
