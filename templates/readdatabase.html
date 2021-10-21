@@ -11,6 +11,7 @@
         </style>
     </head>
     <body>
+        <input id='myInput' onkeyup='searchTable()' type='text'>
         <table class="myTable" id="Table" align="center">
             <thead>
                 <tr>
@@ -43,6 +44,7 @@
             </tbody>
         </table>
         <script>
+
             // TODO: Be able to search through all of the products.
             var checkboxcheck = document.getElementById("checkbox").checked;
             var checkbox = document.getElementById("checkbox");
@@ -147,6 +149,27 @@
                   }
                 }
               }
+            }
+            function searchTable() {
+                var input, filter, found, table, tr, td, i, j;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("Table");
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td");
+                    for (j = 0; j < td.length; j++) {
+                        if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                        }
+                    }
+                    if (found) {
+                        tr[i].style.display = "";
+                        found = false;
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
             }
             </script>
             <p align="center"><a href=/><button class=grey style="height:75px;width:150px">Till startsidan</button></a></p>
