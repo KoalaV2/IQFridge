@@ -1,44 +1,44 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>IQFridge</title>
-    <link
-      href="{{ url_for('static', filename='css/style.css') }}"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap"
-      rel="stylesheet"
-    />
-  </head>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>IQFridge</title>
+        <link
+            href="{{ url_for('static', filename='css/style.css') }}"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap"
+            rel="stylesheet"
+        />
+    </head>
 
-  <body>
-    <div class="main-container">
-      <div class="title-container">
-        <h2>Make a meal.</h2>
-      </div>
+    <body>
+        <div class="main-container">
+            <div class="title-container">
+                <h2>Make a meal.</h2>
+            </div>
 
-      <div class="content-container">
-        <div class="recipe-container">
-          <span> {{ recipe_title }} </span>
-          {% for ingredient in recipe_ingredients %}
-          <div class="recipe">
-            <br />
-            <span> {{ ingredient }} </span>
-            <br />
-          </div>
-          {% endfor %} {% for steps in cooking_steps %}
-          <span> {{ steps }} </span>
-          {% endfor %}
-          <img src="{{ recipe_image }}" />
+            <div class="content-container">
+                <div class="recipe-container">
+                    <span> {{ recipe_title }} </span>
+                    {% for ingredient in recipe_ingredients %}
+                    <div class="recipe">
+                        <br />
+                        <span> {{ ingredient }} </span>
+                        <br />
+                    </div>
+                    {% endfor %} {% for steps in cooking_steps %}
+                    <span> {{ steps }} </span>
+                    {% endfor %}
+                    <img src="{{ recipe_image }}" />
+                </div>
+            </div>
+            <a href="/"
+                ><button class="grey" style="height: 75px; width: 150px">
+                    Tillbaka till startsidan.
+                </button></a
+            >
         </div>
-      </div>
-      <a href="/"
-        ><button class="grey" style="height: 75px; width: 150px">
-          Tillbaka till startsidan.
-        </button></a
-      >
-    </div>
-  </body>
+    </body>
 </html>

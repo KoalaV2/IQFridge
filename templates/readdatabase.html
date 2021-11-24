@@ -1,153 +1,203 @@
 <html>
     <head>
         <title>Läs databasen.</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+            href="{{ url_for('static', filename='css/style.css') }}"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap"
+            rel="stylesheet"
+        />
         <style>
-            table,tr,th,td{
+            table,
+            tr,
+            th,
+            td {
                 border: solid;
             }
         </style>
     </head>
     <body>
-        <input id='myInput' placeholder="Filter for products." onkeyup='searchTable()' type='text'>
+        <input
+            id="myInput"
+            placeholder="Filter for products."
+            onkeyup="searchTable()"
+            type="text"
+        />
         <table class="myTable" id="Table" align="center">
             <thead>
                 <tr>
-                  <th onclick="sortTable(0)"> ID </th>
-                  <th onclick="sortTable(1)"> Namn </th>
-                  <th onclick="sortTable(2)"> Typ </th>
-                  <th onclick="sortTable(3)"> Utgångsdatum </th>
-                  <th onclick="sortTable(4)"> Öppnad? </th>
-                  <th onclick="sortTable(5)"> Tid öppnad </th>
+                    <th onclick="sortTable(0)">ID</th>
+                    <th onclick="sortTable(1)">Namn</th>
+                    <th onclick="sortTable(2)">Typ</th>
+                    <th onclick="sortTable(3)">Utgångsdatum</th>
+                    <th onclick="sortTable(4)">Öppnad?</th>
+                    <th onclick="sortTable(5)">Tid öppnad</th>
                 </tr>
             </thead>
             <tbody>
                 {% for x in data %}
-                    <tr>
-                        <td>{{x[0]}}</td>
-                        <td>{{x[1]}}</td>
-                        <td>{{x[2]}}</td>
-                        <td>{{x[3]}}</td>
+                <tr>
+                    <td>{{x[0]}}</td>
+                    <td>{{x[1]}}</td>
+                    <td>{{x[2]}}</td>
+                    <td>{{x[3]}}</td>
 
-                        <th>
+                    <th>
                         {% if x[4] == 1 %}
-                             <input id="checkbox" type="checkbox" onchange="doalert(this,{{x[0]}})" checked>
+                        <input
+                            id="checkbox"
+                            type="checkbox"
+                            onchange="doalert(this,{{x[0]}})"
+                            checked
+                        />
                         {% else %}
-                             <input id="checkbox" type="checkbox" onchange="doalert(this,{{x[0]}})">
-                         </th>
-                         {%endif%}
-                        <td>{{x[5]}}</td>
-                    </tr>
+                        <input
+                            id="checkbox"
+                            type="checkbox"
+                            onchange="doalert(this,{{x[0]}})"
+                        />
+                    </th>
+                    {%endif%}
+                    <td>{{x[5]}}</td>
+                </tr>
                 {%endfor%}
             </tbody>
         </table>
         <script>
-
             var checkboxcheck = document.getElementById("checkbox").checked;
             var checkbox = document.getElementById("checkbox");
             console.log(checkbox);
             var xhr = new XMLHttpRequest();
-            var url = "{{ url_for('checkedbox') }}"
+            var url = "{{ url_for('checkedbox') }}";
             xhr.open("GET", url, true);
-            xhr.send()
+            xhr.send();
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    console.log(xhr.responseText)
+                    console.log(xhr.responseText);
                 }
             };
 
-            function doalert(checkboxElem,prodid) {
+            function doalert(checkboxElem, prodid) {
                 if (checkboxElem.checked) {
                     var currentdate = new Date();
-                    var datetime = currentdate.getFullYear() + "-"
-                        + (currentdate.getMonth()+1)  + "-"
-                        + currentdate.getDate() + " "
-                        + currentdate.getHours() + ":"
-                        + currentdate.getMinutes() + ":"
-                        + currentdate.getSeconds();
+                    var datetime =
+                        currentdate.getFullYear() +
+                        "-" +
+                        (currentdate.getMonth() + 1) +
+                        "-" +
+                        currentdate.getDate() +
+                        " " +
+                        currentdate.getHours() +
+                        ":" +
+                        currentdate.getMinutes() +
+                        ":" +
+                        currentdate.getSeconds();
                     console.log(datetime);
 
                     var xhr = new XMLHttpRequest();
-                    var url = "{{ url_for('checkedbox') }}"
+                    var url = "{{ url_for('checkedbox') }}";
                     xhr.open("POST", url, true);
                     xhr.setRequestHeader("Content-Type", "application/json");
                     // xhr.onreadystatechange = function () {
-                        // if (xhr.readyState === 4 && xhr.status === 200) {
-                            // console.log(xhr.responseText)
-                        // }
+                    // if (xhr.readyState === 4 && xhr.status === 200) {
+                    // console.log(xhr.responseText)
+                    // }
                     // };
-                    var data = JSON.stringify({"prodid": prodid,"checkboxcheck":true,"dateopened":datetime});
+                    var data = JSON.stringify({
+                        prodid: prodid,
+                        checkboxcheck: true,
+                        dateopened: datetime,
+                    });
                     xhr.send(data);
                 } else {
                     var xhr = new XMLHttpRequest();
-                    var url = "{{ url_for('checkedbox') }}"
+                    var url = "{{ url_for('checkedbox') }}";
                     xhr.open("POST", url, true);
                     xhr.setRequestHeader("Content-Type", "application/json");
                     // xhr.onreadystatechange = function () {
-                        // if (xhr.readyState === 4 && xhr.status === 200) {
-                            // console.log(xhr.responseText)
-                        // }
+                    // if (xhr.readyState === 4 && xhr.status === 200) {
+                    // console.log(xhr.responseText)
+                    // }
                     // };
-                    var data = JSON.stringify({"prodid": prodid,"checkboxcheck":false,"dateopened":"NULL"});
+                    var data = JSON.stringify({
+                        prodid: prodid,
+                        checkboxcheck: false,
+                        dateopened: "NULL",
+                    });
                     xhr.send(data);
                 }
             }
             function sortTable(n) {
-              var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-              table = document.getElementById("Table");
-              switching = true;
-              // Set the sorting direction to ascending:
-              dir = "asc";
-              /* Make a loop that will continue until
+                var table,
+                    rows,
+                    switching,
+                    i,
+                    x,
+                    y,
+                    shouldSwitch,
+                    dir,
+                    switchcount = 0;
+                table = document.getElementById("Table");
+                switching = true;
+                // Set the sorting direction to ascending:
+                dir = "asc";
+                /* Make a loop that will continue until
               no switching has been done: */
-              while (switching) {
-                // Start by saying: no switching is done:
-                switching = false;
-                rows = table.rows;
-                /* Loop through all table rows (except the
+                while (switching) {
+                    // Start by saying: no switching is done:
+                    switching = false;
+                    rows = table.rows;
+                    /* Loop through all table rows (except the
                 first, which contains table headers): */
-                for (i = 1; i < (rows.length - 1); i++) {
-                  // Start by saying there should be no switching:
-                  shouldSwitch = false;
-                  /* Get the two elements you want to compare,
+                    for (i = 1; i < rows.length - 1; i++) {
+                        // Start by saying there should be no switching:
+                        shouldSwitch = false;
+                        /* Get the two elements you want to compare,
                   one from current row and one from the next: */
-                  x = rows[i].getElementsByTagName("TD")[n];
-                  y = rows[i + 1].getElementsByTagName("TD")[n];
-                  /* Check if the two rows should switch place,
+                        x = rows[i].getElementsByTagName("TD")[n];
+                        y = rows[i + 1].getElementsByTagName("TD")[n];
+                        /* Check if the two rows should switch place,
                   based on the direction, asc or desc: */
-                  if (dir == "asc") {
-                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                      // If so, mark as a switch and break the loop:
-                      shouldSwitch = true;
-                      break;
+                        if (dir == "asc") {
+                            if (
+                                x.innerHTML.toLowerCase() >
+                                y.innerHTML.toLowerCase()
+                            ) {
+                                // If so, mark as a switch and break the loop:
+                                shouldSwitch = true;
+                                break;
+                            }
+                        } else if (dir == "desc") {
+                            if (
+                                x.innerHTML.toLowerCase() <
+                                y.innerHTML.toLowerCase()
+                            ) {
+                                // If so, mark as a switch and break the loop:
+                                shouldSwitch = true;
+                                break;
+                            }
+                        }
                     }
-                  } else if (dir == "desc") {
-                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                      // If so, mark as a switch and break the loop:
-                      shouldSwitch = true;
-                      break;
-                    }
-                  }
-                }
-                if (shouldSwitch) {
-                  /* If a switch has been marked, make the switch
+                    if (shouldSwitch) {
+                        /* If a switch has been marked, make the switch
                   and mark that a switch has been done: */
-                  rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                  switching = true;
-                  // Each time a switch is done, increase this count by 1:
-                  switchcount ++;
-                } else {
-                  /* If no switching has been done AND the direction is "asc",
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                        // Each time a switch is done, increase this count by 1:
+                        switchcount++;
+                    } else {
+                        /* If no switching has been done AND the direction is "asc",
                   set the direction to "desc" and run the while loop again. */
-                  if (switchcount == 0 && dir == "asc") {
-                    dir = "desc";
-                    switching = true;
-                  }
+                        if (switchcount == 0 && dir == "asc") {
+                            dir = "desc";
+                            switching = true;
+                        }
+                    }
                 }
-              }
             }
             function searchTable() {
                 var input, filter, found, table, tr, td, i, j;
@@ -158,7 +208,9 @@
                 for (i = 0; i < tr.length; i++) {
                     td = tr[i].getElementsByTagName("td");
                     for (j = 0; j < td.length; j++) {
-                        if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        if (
+                            td[j].innerHTML.toUpperCase().indexOf(filter) > -1
+                        ) {
                             found = true;
                         }
                     }
@@ -170,8 +222,11 @@
                     }
                 }
             }
-            </script>
-            <p align="center"><a href=/><button class=grey style="height:75px;width:150px">Till startsidan</button></a></p>
-
+        </script>
+        <p align="center">
+            <a href=/><button class="grey" style="height: 75px; width: 150px">
+                Till startsidan
+            </button>
+        </p>
     </body>
 </html>

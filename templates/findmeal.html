@@ -1,45 +1,48 @@
 <!DOCTYPE html>
 <html>
-	<head>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>IQFridge</title>
+        <link
+            href="{{ url_for('static', filename='css/style.css') }}"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap"
+            rel="stylesheet"
+        />
+    </head>
 
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>IQFridge</title>
-		<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
-		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet" />
-
-	</head>
-
-	<body>
-
-		<div class="main-container">
-
-			<div class="title-container">
-				<h2>Hitta en maträtt.</h2>
-			</div>
-            <form action="/findmeal" method = "POST">
-            <p>Namn på maträtten <input type = "text" name = "Name" /></p>
-            <p><input type = "submit" value = "Submit" /></p>
+    <body>
+        <div class="main-container">
+            <div class="title-container">
+                <h2>Hitta en maträtt.</h2>
+            </div>
+            <form action="/findmeal" method="POST">
+                <p>Namn på maträtten <input type="text" name="Name" /></p>
+                <p><input type="submit" value="Submit" /></p>
             </form>
 
-			<div class="content-container">
-
-				<div class="recipe-container">
-					{% for recipe in recipies %}
-						<div class="recipe">
-                            <span> {{ recipe['recipe_rating'] }} ⯪</span>
-							<br>
-							<span> {{ recipe['recipe_id'] }} </span>
-							<br>
-							<span> {{ recipe['recipe_title'] }} </span>
-							<br>
-							<img class="recipe-image" recipe_id="{{ recipe['recipe_id'] }}" src="{{ recipe['recipe_image'] }}" onclick="window.open('/makemeal/'+this.getAttribute('recipe_id'))">
-						</div>
-					{% endfor %}
-				</div>
-
-			</div>
-
-		</div>
-
-	</body>
+            <div class="content-container">
+                <div class="recipe-container">
+                    {% for recipe in recipies %}
+                    <div class="recipe">
+                        <span> {{ recipe['recipe_rating'] }} ⯪</span>
+                        <br />
+                        <span> {{ recipe['recipe_id'] }} </span>
+                        <br />
+                        <span> {{ recipe['recipe_title'] }} </span>
+                        <br />
+                        <img
+                            class="recipe-image"
+                            recipe_id="{{ recipe['recipe_id'] }}"
+                            src="{{ recipe['recipe_image'] }}"
+                            onclick="window.open('/makemeal/'+this.getAttribute('recipe_id'))"
+                        />
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </body>
 </html>

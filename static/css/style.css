@@ -1,149 +1,149 @@
 @keyframes fadein {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 @-webkit-keyframes fadein {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 body {
-  background-color: #272727;
-  position: relative;
-  text-align: center;
-  margin: auto;
-  animation: fadein 1.5s;
-  font-family: "IBM Plex Mono", monospace;
-  color: white;
-  -webkit-animation: fadein 1.5s;
+    background-color: #272727;
+    position: relative;
+    text-align: center;
+    margin: auto;
+    animation: fadein 1.5s;
+    font-family: "IBM Plex Mono", monospace;
+    color: white;
+    -webkit-animation: fadein 1.5s;
 }
 
 .headers {
-  color: white;
-  font-family: "IBM Plex Mono", monospace;
+    color: white;
+    font-family: "IBM Plex Mono", monospace;
 }
 
 p {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 18px;
-  color: white;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 18px;
+    color: white;
 }
 
 .main-container {
-  width: 100vw;
-  min-height: 100vh;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  gap: 2em;
-}
-
-@media only screen and (max-width: 667px) {
-  .main-container {
-    margin-top: 2em;
-    margin-bottom: 2em;
-  }
-}
-
-.main-container .title-container {
-  height: 30%;
-  width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.main-container .content-container {
-  height: 70%;
-  width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.main-container .content-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-@media only screen and (max-width: 667px) {
-  .main-container .content-container div.recipe-container {
+    width: 100vw;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
     gap: 2em;
-  }
-}
-
-.main-container .content-container div.recipe-container div.recipe {
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-}
-
-.main-container
-  .content-container
-  div.recipe-container
-  div.recipe
-  img.recipe-image {
-  width: 80%;
 }
 
 @media only screen and (max-width: 667px) {
-  .main-container
+    .main-container {
+        margin-top: 2em;
+        margin-bottom: 2em;
+    }
+}
+
+.main-container .title-container {
+    height: 30%;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.main-container .content-container {
+    height: 70%;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.main-container .content-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 667px) {
+    .main-container .content-container div.recipe-container {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        gap: 2em;
+    }
+}
+
+.main-container .content-container div.recipe-container div.recipe {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+
+.main-container
     .content-container
     div.recipe-container
     div.recipe
     img.recipe-image {
-    width: 70%;
-  }
+    width: 80%;
+}
+
+@media only screen and (max-width: 667px) {
+    .main-container
+        .content-container
+        div.recipe-container
+        div.recipe
+        img.recipe-image {
+        width: 70%;
+    }
 }
 /*# sourceMappingURL=style.css.map */
 
@@ -165,4 +165,3 @@ p {
 .mytable td {
     padding: 12px 15px;
 }
-

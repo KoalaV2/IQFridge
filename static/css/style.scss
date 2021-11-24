@@ -1,17 +1,20 @@
 $size__site_content_width: 1024px;
 
-$media_queries : (
-    'mobile'    : "only screen and (max-width: 667px)",
-    'tablet'    : "only screen and (min-width: 668px) and (max-width: $size__site_content_width)",
-    'desktop'   : "only screen and (min-width: ($size__site_content_width + 1))",
-    'retina2'   : "only screen and (-webkit-min-device-pixel-ratio: 2) and (min-resolution: 192dpi)",
-    'retina3'   : "only screen and (-webkit-min-device-pixel-ratio: 3) and (min-resolution: 288dpi)",
-    'landscape' : "screen and (orientation:landscape) ",    
-    'portrait'  : "screen and (orientation:portrait) "
+$media_queries: (
+    "mobile": "only screen and (max-width: 667px)",
+    "tablet":
+        "only screen and (min-width: 668px) and (max-width: $size__site_content_width)",
+    "desktop": "only screen and (min-width: ($size__site_content_width + 1))",
+    "retina2":
+        "only screen and (-webkit-min-device-pixel-ratio: 2) and (min-resolution: 192dpi)",
+    "retina3":
+        "only screen and (-webkit-min-device-pixel-ratio: 3) and (min-resolution: 288dpi)",
+    "landscape": "screen and (orientation:landscape) ",
+    "portrait": "screen and (orientation:portrait) ",
 );
 
 @mixin for_breakpoint($breakpoints) {
-    $conditions : ();
+    $conditions: ();
     @each $breakpoint in $breakpoints {
         // If the key exists in the map
         $conditions: append(
@@ -24,9 +27,7 @@ $media_queries : (
     @media #{$conditions} {
         @content;
     }
-
 }
-
 
 @keyframes fadein {
     0% {
@@ -53,22 +54,22 @@ body {
     text-align: center;
     margin: auto;
     animation: fadein 1.5s;
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: "IBM Plex Mono", monospace;
     color: white;
     -webkit-animation: fadein 1.5s;
 }
 .headers {
     color: white;
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: "IBM Plex Mono", monospace;
 }
 
-p{
-    font-family: 'IBM Plex Mono', monospace;
+p {
+    font-family: "IBM Plex Mono", monospace;
     font-size: 18px;
     color: white;
 }
 
-.main-container{
+.main-container {
     width: 100vw;
     min-height: 100vh;
 
@@ -83,17 +84,17 @@ p{
         margin-bottom: 2em;
     }
 
-    .title-container{
+    .title-container {
         height: 30%;
         width: 100%;
 
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-direction: column;        
+        flex-direction: column;
     }
 
-    .content-container{
+    .content-container {
         height: 70%;
         width: 100%;
 
@@ -102,29 +103,27 @@ p{
         justify-content: center;
         flex-direction: column;
 
-        div.recipe-container{
+        div.recipe-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            
+
             @include for_breakpoint(mobile) {
                 flex-direction: column;
                 gap: 2em;
             }
 
-            div.recipe{
+            div.recipe {
                 flex: 1;
 
-                img.recipe-image{
+                img.recipe-image {
                     width: 80%;
-        
+
                     @include for_breakpoint(mobile) {
                         width: 70%;
                     }
                 }
             }
         }
-
-        
     }
 }

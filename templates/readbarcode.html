@@ -1,41 +1,53 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>IQFridge ReadBar</title>
-        <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
-        </head>
+        <link
+            href="{{ url_for('static', filename='css/style.css') }}"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap"
+            rel="stylesheet"
+        />
+    </head>
     <body>
-        <p> The product is: <br/> {{ prodname }}, <br/> and it is {{ prodcategory }}.</p>
-        <img src="{{ productimage }}"> </img>
+        <p>
+            The product is: <br />
+            {{ prodname }}, <br />
+            and it is {{ prodcategory }}.
+        </p>
+        <img src="{{ productimage }}" />
         <a href="{{ url_for('takeimage') }}">
-            <button> Add new product. </button>
+            <button>Add new product.</button>
         </a>
         <a href="{{ url_for('index') }}">
-            <button> Go to the start-page. </button>
+            <button>Go to the start-page.</button>
         </a>
         <a onclick="sendtodatabase()">
-            <button> Add to the fridge. </button>
+            <button>Add to the fridge.</button>
         </a>
-                <script>
-                    function sendtodatabase() {
-                        var xhr = new XMLHttpRequest();
-                        var url = "{{ url_for('writeproduct') }}";
-                        xhr.open("POST", url, true);
-                        xhr.setRequestHeader("Content-Type", "application/json");
-                        xhr.onreadystatechange = function () {
-                            if (xhr.readyState === 4 && xhr.status === 200) {
-                                console.log(xhr.responseText)
-                                alert(xhr.responseText)
-                                // var json = JSON.parse(xhr.responseText);
-                                // console.log(json.email + ", " + json.password);
-                            }
-                        };
-                        var data = JSON.stringify({"prodname": "{{prodname}}", "prodcategory": "{{prodcategory}}"});
-                        xhr.send(data);
+        <script>
+            function sendtodatabase() {
+                var xhr = new XMLHttpRequest();
+                var url = "{{ url_for('writeproduct') }}";
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        console.log(xhr.responseText);
+                        alert(xhr.responseText);
+                        // var json = JSON.parse(xhr.responseText);
+                        // console.log(json.email + ", " + json.password);
                     }
-
-                </script>
+                };
+                var data = JSON.stringify({
+                    prodname: "{{prodname}}",
+                    prodcategory: "{{prodcategory}}",
+                });
+                xhr.send(data);
+            }
+        </script>
     </body>
 </html>
