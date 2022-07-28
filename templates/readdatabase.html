@@ -35,6 +35,8 @@
                     <th onclick="sortTable(3)">Utgångsdatum</th>
                     <th onclick="sortTable(4)">Öppnad?</th>
                     <th onclick="sortTable(5)">Tid öppnad</th>
+                    <th onclick="sortTable(6)">Tid tillagd</th>
+                    <th onclick="sortTable(7)">Dålig?</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,6 +46,7 @@
                     <td>{{x[1]}}</td>
                     <td>{{x[2]}}</td>
                     <td>{{x[3]}}</td>
+                    <!-- <td>{{x[4]}}</td> If opened or not -->
 
                     <th>
                         {% if x[4] == 1 %}
@@ -62,6 +65,12 @@
                     </th>
                     {%endif%}
                     <td>{{x[5]}}</td>
+                    <td>{{x[6]}}</td>
+                    {% if x[3] <= x[6] %}
+                    <td>Product bad!!</td>
+                    {% else %}
+                    <td>{{x[7]}}</td>
+                    {%endif%}
                 </tr>
                 {%endfor%}
             </tbody>

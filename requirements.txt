@@ -1,0 +1,4 @@
+pyzbar
+requests
+ourgroceries
+mariadb

@@ -6,18 +6,14 @@ import os
 from dotenv import load_dotenv
 from ourgroceries import OurGroceries
 import asyncio
-from flask import Flask
-from flask import render_template
-from flask import request
-from flask import redirect
-from flask import url_for
-from flask import jsonify
+from flask import url_for, redirect, request, render_template, Flask
 import cv2
 from pyzbar.pyzbar import decode
 import requests
 import requests
 import json
 import html
+from datetime import datetime
 
 
 
@@ -47,11 +43,12 @@ except mariadb.Error as e:
     print(f"Error connecting to MariaDB Platform: {e}")
     exit()
 
+c = conn.cursor()
+c.execute('''CREATE TABLE IF NOT EXISTS fridge (id MEDIUMINT NOT NULL AUTO_INCREMENT, name VARCHAR(255),category VARCHAR(255),expdate TIMESTAMP,opened TINYINT(0),dateop TIMESTAMP, dateadded TIMESTAMP,bad TINYINT(0), PRIMARY KEY (id))''')
 
 def readdatabase():
     c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS fridge (id MEDIUMINT NOT NULL AUTO_INCREMENT, name VARCHAR(255),category VARCHAR(255),expdate VARCHAR(255),opened TINYINT(0), PRIMARY KEY (id))''')
-    c.execute("SELECT id,name,category,expdate,opened,dateop FROM fridge")
+    c.execute("SELECT id,name,category,expdate,opened,dateop,dateadded,bad FROM fridge")
     return c
 
 def getlist():
@@ -250,20 +247,22 @@ def writeproduct():
     content = request.json
     print(content)
     c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS fridge (id MEDIUMINT NOT NULL AUTO_INCREMENT, name VARCHAR(255),category VARCHAR(255),expdate VARCHAR(255),opened TINYINT(0), PRIMARY KEY (id))''')
     prodname = content['prodname']
     prodcategory = content['prodcategory']
     # prodexpdate = content['prodexpdate']
-    prodexpdate = "2021-02-02"
+    prodexpdate = datetime.fromtimestamp(1658335861).strftime('%Y-%m-%d %H:%M:%S')
+    # prodexpdate = "2021-02-02"
     prodop = False
-    c.execute("INSERT INTO fridge (name,category,expdate,opened) VALUES (?,?,?,?);", (prodname, prodcategory, prodexpdate,prodop))
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    c.execute("INSERT INTO fridge (name,category,expdate,opened,dateadded) VALUES (?,?,?,?,?);", (prodname, prodcategory, prodexpdate,prodop,timestamp))
     conn.commit()
     return(f"Product: {prodname} has been added to the database.")
 
 
 
 def main():
-    app.run(host="0.0.0.0",ssl_context='adhoc')
+    # app.run(host="0.0.0.0",ssl_context='adhoc')
+    app.run(host="0.0.0.0")
 
 if __name__ == "__main__":
     main()
